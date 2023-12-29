@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  last:
+    build: last
+    volumes:
+      - ../code:/var/www/html/last
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ../code:/var/www/html/last
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    links:
+      - last
+  ###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-1234}
+      POSTGRES_USER: ${POSTGRES_USER:-app}

@@ -31,7 +31,7 @@ Then, take a look the public/assets/images and the files will be there.
 
 In Dev mode, delete 'public/assets/images' because if there are assets in ''public/assets/images', Symfony will use these assets excepts the assets in the 'assets' directory.
 
-Same behaviour occurs with .js files. 
+Same occurs with .js files
 
 ## 03. Importmap and javascript modules ##
 
@@ -76,3 +76,38 @@ import alienGreeting from './lib/alien-greeting.js'
 alienGreeting('Give us a candy', false);
 
 Refresh, an you will note the function is called.
+
+## 04. Install 3rd javascript packages ##
+
+In npmjs.com look for js-confetti. We're going to use it without use yiarn. We focus in the usage example:
+
+import JSConfetti from 'js-confetti'
+
+const jsConfetti = new JSConfetti()
+
+jsConfetti.addConfetti()
+
+We copy the previous code in the app.js file. Just one note, first we need imports and then use functions, eg:
+
+...
+import './styles/app.css'
+import alienGreeting from './lib/alien-greeting.js'
+import JSConfetti from 'js-confetti'
+
+const jsConfetti = new JSConfetti()
+jsConfetti.addConfetti()
+
+alienGreeting('Give us a candy', false);
+...
+
+To install the library, we need to run:
+
+$ bin/console importmap:require js-confetti
+
+If you take a look, the library code goes to vendor and this directory is in the .gitignore list.
+
+Then, for the future, when you need to install all 3rd party libraries, you will to run:
+
+$ bin/console importmap:install
+
+Also, take a look importmap.php to check how the file changes.

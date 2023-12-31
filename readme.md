@@ -111,3 +111,33 @@ Then, for the future, when you need to install all 3rd party libraries, you will
 $ bin/console importmap:install
 
 Also, take a look importmap.php to check how the file changes.
+
+## 05. css ##
+
+The css acts like an import (but css cannot be import according to ECMA). It's a trick that asset mapper does for us. It's in app.js, line import './styles/app.css'
+
+eg: Inside assets/styles, create alien-greeting.css
+
+body {
+    background-color: darkgreen;
+}
+
+Then, In alien-greeting.js, add next line:
+
+import '../styles/alien-greeting.css';
+
+Save all, and refresh and you will get a green background.
+
+Take a look the source to check how it works.
+
+Note that import can be run 'lazy' and async at run time, eg:
+
+export default function (message, inPeace = false) {
+ 
+    setTimeout(() => {
+        import('../styles/alien-greeting.css');     // We need run it as function
+    }, 4000);
+    
+    
+    console.log(`${message}! ${inPeace ? '👽' : '👾'}`);
+}
